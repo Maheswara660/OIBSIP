@@ -1,0 +1,189 @@
+name: Android Build & Release
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: '21'
+  JAVA_DISTRIBUTION: 'temurin'
+  GRADLE_OPTS: >-
+    -Dorg.gradle.daemon=false
+    -Dorg.gradle.parallel=true
+    -Dorg.gradle.vfs.watch=false
+
+jobs:
+  build-android:
+    name: Build All Android Tasks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+          gradle-home-cache-cleanup: true
+
+      - name: Accept Android SDK Licenses
+        run: |
+          yes | sdkmanager --licenses || true
+        shell: bash
+
+      - name: Grant execute permissions for all gradlew wrappers
+        run: |
+          find . -name "gradlew" -exec chmod +x {} +
+        shell: bash
+
+      - name: Build Release APKs for All 5 Tasks
+        run: |
+          set -euo pipefail
+
+          PROJECTS=(
+            "Android-Task1-UnitConverter"
+            "Android-Task2-ToDoApp"
+            "Android-Task3-Calculator"
+            "Android-Task4-QuizApp"
+            "Android-Task5-Stopwatch"
+          )
+
+          mkdir -p "$GITHUB_WORKSPACE/build-outputs/unsigned" "$GITHUB_WORKSPACE/build-logs"
+
+          for proj in "${PROJECTS[@]}"; do
+            echo "=========================================="
+            echo "Building Release APK for $proj..."
+            echo "=========================================="
+
+            (
+              cd "$proj"
+              echo "Writing log to: $GITHUB_WORKSPACE/build-logs/${proj}.log"
+              ./gradlew assembleRelease \
+                --no-configuration-cache \
+                --stacktrace \
+                2>&1 | tee "$GITHUB_WORKSPACE/build-logs/${proj}.log"
+              # Capture Gradle exit status (not tee's)
+              GRADLE_RC=${PIPESTATUS[0]}
+              if [ "$GRADLE_RC" -ne 0 ]; then
+                echo "::error::Gradle build failed for $proj (exit $GRADLE_RC)"
+                exit "$GRADLE_RC"
+              fi
+            ) || {
+              echo "::error::Gradle build failed for $proj — see build-logs/${proj}.log"
+              exit 1
+            }
+
+            # Locate release APK — standard path first, then fallbacks
+            APK_SRC=""
+
+            # Strategy 1: Standard release output path
+            APK_SRC=$(find "$GITHUB_WORKSPACE/$proj/app/build/outputs/apk/release" -maxdepth 1 -type f -name "*.apk" ! -name "*unaligned*" 2>/dev/null | head -n 1 || true)
+
+            # Strategy 2: Any release APK in build outputs
+            if [ -z "$APK_SRC" ]; then
+              APK_SRC=$(find "$GITHUB_WORKSPACE/$proj/app/build/outputs" -type f -name "*release*.apk" ! -name "*unaligned*" ! -path "*/intermediates/*" 2>/dev/null | head -n 1 || true)
+            fi
+
+            # Strategy 3: Any APK in build outputs
+            if [ -z "$APK_SRC" ]; then
+              APK_SRC=$(find "$GITHUB_WORKSPACE/$proj/app/build/outputs" -type f -name "*.apk" ! -name "*unaligned*" ! -path "*/intermediates/*" 2>/dev/null | head -n 1 || true)
+            fi
+
+            if [ -z "$APK_SRC" ]; then
+              echo "::error::Release APK not found for $proj"
+              echo "DEBUG: Contents of $proj/app/build/outputs:"
+              find "$GITHUB_WORKSPACE/$proj/app/build/outputs" -type f 2>/dev/null | head -30 || true
+              exit 1
+            fi
+
+            TARGET_NAME="${proj}-release-unsigned.apk"
+            cp "$APK_SRC" "$GITHUB_WORKSPACE/build-outputs/unsigned/$TARGET_NAME"
+            echo "✓ Staged: build-outputs/unsigned/$TARGET_NAME (from $APK_SRC)"
+          done
+        shell: bash
+
+      - name: Upload Build Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-logs
+          path: build-logs/*.log
+          retention-days: 7
+
+      - name: Upload Unsigned APKs Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-unsigned-apks
+          path: build-outputs/unsigned/*.apk
+          retention-days: 14
+
+  release:
+    name: Draft Release
+    needs: [build-android]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Download all Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Stage Release Files
+        run: |
+          set -euo pipefail
+          mkdir -p release-files
+
+          while IFS= read -r f; do
+            [ -n "$f" ] || continue
+            cp "$f" "release-files/$(basename "$f")"
+            echo "Staged: $(basename "$f")"
+          done < <(find artifacts/android-unsigned-apks -type f -name '*.apk' 2>/dev/null || true)
+
+          if [ -z "$(ls -A release-files/ 2>/dev/null)" ]; then
+            echo "ERROR: No APKs found to stage for release!"
+            exit 1
+          fi
+        shell: bash
+
+      - name: Create or Update Draft Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="v1.0.0"
+          VERSION="1.0.0"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Draft release $TAG exists — updating assets..."
+            gh release upload "$TAG" release-files/* --clobber
+          else
+            echo "Creating new draft release $TAG..."
+            gh release create "$TAG" \
+              --draft \
+              --title "OIBSIP Android App Portfolio v$VERSION" \
+              --notes "Automated GitHub Actions draft release containing all 5 task APKs for the Oasis Infobyte Internship Program (OIBSIP) — Android App Development by Rakamanda Maheswara Rao." \
+              release-files/*
+          fi
+        shell: bash

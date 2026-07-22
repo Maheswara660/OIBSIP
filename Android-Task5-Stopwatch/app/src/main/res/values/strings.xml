@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Chrono</string>
+    <string name="stopwatch_initial_time">00:00.00</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_resume">Resume</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_lap">Lap</string>
+    <string name="no_laps_recorded">No laps recorded yet</string>
+    <string name="lap_header_number">Lap</string>
+    <string name="lap_header_split">Split</string>
+    <string name="lap_header_total">Total Time</string>
+</resources>

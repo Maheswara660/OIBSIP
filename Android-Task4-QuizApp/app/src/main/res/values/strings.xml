@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuickQuiz</string>
+    <string name="quiz_title">QuickQuiz</string>
+    <string name="quiz_subtitle">Test your knowledge!</string>
+    <string name="next_question">Next Question</string>
+    <string name="finish_quiz">Finish Quiz</string>
+    <string name="restart_quiz">Restart Quiz</string>
+    <string name="please_select_option">Please select an option to continue!</string>
+    <string name="quiz_completed">Quiz Completed!</string>
+    <string name="your_score">Your Final Score</string>
+</resources>

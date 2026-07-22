@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base dark background colors -->
+    <color name="bg_dark">#0F111A</color>
+    <color name="bg_card">#1B1E2E</color>
+    <color name="bg_option">#25283B</color>
+
+    <!-- Accent colors -->
+    <color name="purple_accent">#7C4DFF</color>
+    <color name="purple_accent_dark">#651FFF</color>
+    <color name="purple_accent_light">#B388FF</color>
+    
+    <!-- Status & Indicator colors -->
+    <color name="correct_green">#00E676</color>
+    <color name="warning_orange">#FF9100</color>
+
+    <!-- Text colors -->
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_secondary">#A0A5BD</color>
+    <color name="text_muted">#6C728F</color>
+
+    <!-- Radio button states -->
+    <color name="radio_text_color">#FFFFFF</color>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Palette -->
+    <color name="background">#0F172A</color>
+    <color name="card_background">#1E293B</color>
+    <color name="card_stroke">#334155</color>
+    
+    <color name="input_background">#0F172A</color>
+    <color name="input_stroke">#475569</color>
+    <color name="input_stroke_focused">#6366F1</color>
+    
+    <color name="primary">#6366F1</color>
+    <color name="primary_dark">#4F46E5</color>
+    <color name="primary_light">#A5B4FC</color>
+    <color name="accent">#22D3EE</color>
+    
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_hint">#64748B</color>
+    
+    <color name="result_card_bg">#1E1B4B</color>
+    <color name="result_text">#E0E7FF</color>
+    <color name="result_border">#4338CA</color>
+    
+    <color name="dropdown_popup_bg">#1E293B</color>
+    <color name="dropdown_stroke">#475569</color>
+    
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

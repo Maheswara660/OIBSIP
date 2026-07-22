@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Backgrounds -->
+    <color name="bg_app">#12131C</color>
+    <color name="bg_display">#1E1F2B</color>
+
+    <!-- Button Colors -->
+    <color name="btn_number_bg">#2A2B3D</color>
+    <color name="btn_function_bg">#3A3C52</color>
+    <color name="btn_operator_bg">#4F46E5</color>
+    <color name="btn_equals_bg">#10B981</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#9CA3AF</color>
+    <color name="text_accent">#818CF8</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

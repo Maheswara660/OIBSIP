@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Taskify</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_to_continue">Sign in to manage your tasks securely</string>
+    <string name="create_account">Create Account</string>
+    <string name="join_listlock">Join Taskify to get organized today</string>
+    
+    <!-- Input Field Labels -->
+    <string name="full_name">Full Name</string>
+    <string name="email_or_username">Email Address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <!-- Buttons -->
+    <string name="login">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="dont_have_account">Don\'t have an account? Sign Up</string>
+    <string name="already_have_account">Already have an account? Sign In</string>
+
+    <!-- Tasks Screen -->
+    <string name="hello_user">Hello, %1$s 👋</string>
+    <string name="your_tasks_today">Here are your tasks for today</string>
+    <string name="tasks_progress">%1$d of %2$d tasks completed</string>
+    <string name="no_tasks_title">No tasks found</string>
+    <string name="no_tasks_subtitle">Tap the "+" button below to add your first task!</string>
+    <string name="add_task">Add Task</string>
+    <string name="new_task">New Task</string>
+    <string name="task_input_hint">What needs to be done?</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="logout">Logout</string>
+
+    <!-- Toast / Error Messages -->
+    <string name="err_empty_fields">Please fill in all required fields</string>
+    <string name="err_invalid_credentials">Invalid email address or password</string>
+    <string name="err_passwords_dont_match">Passwords do not match</string>
+    <string name="err_email_exists">An account with this email already exists</string>
+    <string name="err_short_password">Password must be at least 4 characters</string>
+    <string name="msg_register_success">Account registered successfully! Please sign in.</string>
+    <string name="msg_task_added">Task added successfully</string>
+    <string name="msg_task_deleted">Task deleted</string>
+    <string name="msg_logged_out">Logged out successfully</string>
+    <string name="confirm_logout_title">Logout Confirmation</string>
+    <string name="confirm_logout_message">Are you sure you want to log out of Taskify?</string>
+</resources>

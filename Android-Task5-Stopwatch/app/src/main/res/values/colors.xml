@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Backgrounds -->
+    <color name="bg_dark">#0B0F19</color>
+    <color name="surface_dark">#151C2C</color>
+    <color name="surface_dark_stroke">#243048</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_accent">#38BDF8</color>
+
+    <!-- Action Button Colors -->
+    <color name="btn_start_bg">#059669</color>
+    <color name="btn_start_text">#FFFFFF</color>
+
+    <color name="btn_pause_bg">#DC2626</color>
+    <color name="btn_pause_text">#FFFFFF</color>
+
+    <color name="btn_lap_bg">#4F46E5</color>
+    <color name="btn_lap_text">#FFFFFF</color>
+
+    <color name="btn_reset_bg">#D97706</color>
+    <color name="btn_reset_text">#FFFFFF</color>
+
+    <color name="btn_disabled_bg">#1E293B</color>
+    <color name="btn_disabled_text">#475569</color>
+
+    <!-- Lap list highlights -->
+    <color name="lap_fastest_bg">#064E3B</color>
+    <color name="lap_fastest_text">#34D399</color>
+
+    <color name="lap_slowest_bg">#7F1D1D</color>
+    <color name="lap_slowest_text">#FCA5A5</color>
+
+    <!-- System -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

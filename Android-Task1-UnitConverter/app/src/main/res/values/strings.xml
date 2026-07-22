@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UniConv</string>
+    <string name="app_subtitle">Fast &amp; Accurate Unit Conversion</string>
+    
+    <string name="label_category">Category</string>
+    <string name="label_input">Value to Convert</string>
+    <string name="hint_input">Enter number…</string>
+    <string name="label_source_unit">From</string>
+    <string name="label_target_unit">To</string>
+    <string name="btn_convert">Convert</string>
+    <string name="btn_swap">Swap</string>
+    <string name="label_result_heading">Converted Result</string>
+    <string name="default_result">Enter a number and tap Convert</string>
+    
+    <string name="toast_invalid_input">Please enter a valid numeric value</string>
+    <string name="toast_invalid_temperature">Temperature below absolute zero is invalid</string>
+    <string name="toast_negative_value">Length and Weight cannot be negative</string>
+
+    <string-array name="categories_array">
+        <item>Length</item>
+        <item>Weight</item>
+        <item>Temperature</item>
+    </string-array>
+
+    <string-array name="length_units_array">
+        <item>cm</item>
+        <item>m</item>
+        <item>inch</item>
+    </string-array>
+
+    <string-array name="weight_units_array">
+        <item>kg</item>
+        <item>g</item>
+        <item>pound</item>
+    </string-array>
+
+    <string-array name="temperature_units_array">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+</resources>
